@@ -15,7 +15,7 @@ describe Deploy do
     end
 
     it "should deploy the project executing the project deploy command" do
-      expect_for "cd #{project.send :path} && #{project.deploy_command} >> #{project.send :log_path} 2>&1"
+      expect_for "cd #{project.send :path} && #{project.deploy_command} > #{project.send :log_path} 2>&1"
       Deploy.create! :project => project
     end
 
