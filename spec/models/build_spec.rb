@@ -20,12 +20,12 @@ describe Build do
     end
 
     it "should execute bundle install before build" do
-      expect_for "cd #{@project.send :path} && bundle install --path .gems >> #{@project.send :log_path} 2>&1"
+      expect_for "cd #{@project.send :path} && bundle install --path .gems --quiet >> #{@project.send :log_path} 2>&1"
       Build.create! :project => @project
     end
 
     it "should not execute bundle install before build" do
-      dont_accept "cd #{@another_project.send :path} && bundle install --path .gems >> #{@another_project.send :log_path} 2>&1"
+      dont_accept "cd #{@another_project.send :path} && bundle install --path .gems --quiet >> #{@another_project.send :log_path} 2>&1"
       Build.create! :project => @another_project
     end
 
