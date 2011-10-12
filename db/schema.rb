@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100826174921) do
+ActiveRecord::Schema.define(:version => 20111012154731) do
 
   create_table "builds", :force => true do |t|
     t.integer  "project_id"
@@ -50,10 +50,12 @@ ActiveRecord::Schema.define(:version => 20100826174921) do
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "branch",         :default => "master"
-    t.string   "deploy_command", :default => "rake inploy:remote:update"
-    t.string   "build_command",  :default => "rake build"
+    t.string   "branch",                :default => "master"
+    t.string   "deploy_command",        :default => "rake inploy:remote:update"
+    t.string   "build_command",         :default => "rake build"
     t.boolean  "building"
+    t.boolean  "bundle_install",        :default => true
+    t.boolean  "continuous_deployment", :default => false
   end
 
 end
