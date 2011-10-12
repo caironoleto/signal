@@ -65,6 +65,7 @@ class Project < ActiveRecord::Base
   def run_build_command
     Bundler.with_clean_env do
       run "rvm gemset use #{name} >>"
+      run "bundle install --path .gems >>" if bundle_install
       result = run "unset GEM_PATH && unset RUBYOPT && unset RAILS_ENV && unset BUNDLE_GEMFILE && #{build_command} >>"
       return result, File.open(log_path).read
     end

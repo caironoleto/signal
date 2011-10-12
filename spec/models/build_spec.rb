@@ -9,6 +9,7 @@ describe Build do
     before :each do
       fail_on_command
       @project = Factory.build :project, :branch => "staging"
+      @another_project = Factory.build :project, :branch => "staging", :bundle_install => false, :continuous_deployment => true
       system "echo \"lorem ipsum\" > tmp/#{@project.name}"
       build_repo_for @project
     end
@@ -16,6 +17,16 @@ describe Build do
     it "should pull the repository from the project url and branch" do
       expect_for "cd #{@project.send :path} && git pull #{@project.url} #{@project.branch} > #{@project.send :log_path} 2>&1"
       Build.create! :project => @project
+    end
+
+    it "should execute bundle install before build" do
+      expect_for "cd #{@project.send :path} && bundle install --path .gems >> #{@project.send :log_path} 2>&1"
+      Build.create! :project => @project
+    end
+
+    it "should not execute bundle install before build" do
+      dont_accept "cd #{@another_project.send :path} && bundle install --path .gems >> #{@another_project.send :log_path} 2>&1"
+      Build.create! :project => @another_project
     end
 
     it "should use the project gemset" do
@@ -91,6 +102,18 @@ describe Build do
       build = Build.new :project => @project
       Notifier.should_not_receive(:deliver_fix_notification).with(build)
       build.save
+    end
+
+    it "should not deploy after a success build" do
+      success_on_command
+      dont_accept "cd #{@project.send :path} && #{@project.deploy_command} > #{@project.send :log_path} 2>&1"
+      Build.create! :project => @project
+    end
+
+    it "should deploy after a success build" do
+      success_on_command
+      expect_for "cd #{@another_project.send :path} && #{@another_project.deploy_command} > #{@another_project.send :log_path} 2>&1"
+      Build.create! :project => @another_project
     end
 
     it "should save the author of the commit that forced the build" do

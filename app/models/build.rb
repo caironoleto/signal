@@ -19,6 +19,7 @@ class Build < ActiveRecord::Base
 
   after_create do
     Notifier.fail_notification(self).deliver unless success
+    project.run_deploy if success && project.continuous_deployment
   end
 
   private
