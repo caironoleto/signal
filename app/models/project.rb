@@ -73,7 +73,7 @@ class Project < ActiveRecord::Base
 
   def run_deploy
     Bundler.with_clean_env do
-      return run("#{self.deploy_command} >>"), File.open(log_path).read
+      return run("#{self.deploy_command} >"), File.open(log_path).read
     end
   end
 
