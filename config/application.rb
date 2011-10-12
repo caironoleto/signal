@@ -17,7 +17,10 @@ module SignalCI
         :address          => MAILER['address'],
         :port             => MAILER['port'],
         :domain           => MAILER['domain'],
-        :enable_starttls_auto => false
+        :user_name        => MAILER['user_name'],
+        :password         => MAILER['password'],
+        :authentication   => MAILER['authentication'],
+        :enable_starttls_auto => MAILER['enable_starttls_auto']
       }
     end
   end
