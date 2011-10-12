@@ -19,6 +19,11 @@ describe Deploy do
       Deploy.create! :project => project
     end
 
+    it "should deploy the project with a clean Bundler env" do
+      Bundler.should_receive(:with_clean_env).and_yield
+      Deploy.create! :project => project
+    end
+
     it "should save the log" do
       Deploy.create!(:project => project).output.should include(log)
     end
