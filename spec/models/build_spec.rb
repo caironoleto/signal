@@ -106,13 +106,13 @@ describe Build do
 
     it "should not deploy after a success build" do
       success_on_command
-      dont_accept "cd #{@project.send :path} && #{@project.deploy_command} > #{@project.send :log_path} 2>&1"
+      dont_accept "cd #{@project.send :path} && #{@project.deploy_command} >> #{@project.send :log_path} 2>&1"
       Build.create! :project => @project
     end
 
     it "should deploy after a success build" do
       success_on_command
-      expect_for "cd #{@another_project.send :path} && #{@another_project.deploy_command} > #{@another_project.send :log_path} 2>&1"
+      expect_for "cd #{@another_project.send :path} && #{@another_project.deploy_command} >> #{@another_project.send :log_path} 2>&1"
       Build.create! :project => @another_project
     end
 
