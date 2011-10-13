@@ -41,7 +41,7 @@ describe Build do
     end
 
     it "should build the project with a clean Bundler env" do
-      Bundler.should_receive(:with_clean_env).and_yield
+      Bundler.should_receive(:with_clean_env).at_least(:once).and_yield
       Build.create! :project => @project
     end
 

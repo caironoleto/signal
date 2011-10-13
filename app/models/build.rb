@@ -11,6 +11,7 @@ class Build < ActiveRecord::Base
   before_validation :on => :create do
     return nil if project.nil?
     project.update_code
+    project.run_bundle_install
     self.success, self.output = project.run_build_command
     take_data_from project.last_commit
   end
