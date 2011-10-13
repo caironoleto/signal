@@ -114,6 +114,13 @@ body {
         }
       }
     }
+
+    div.last-builds {
+      .build {
+        margin-top: 20px;
+      }
+    }
+
   }
 
   ul#projects {

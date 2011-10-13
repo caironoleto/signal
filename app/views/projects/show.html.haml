@@ -1,2 +1,10 @@
 = render :layout => "shared/project", :locals => { :project => @project } do
   = render :partial => "shared/build", :locals => { :build => @project.builds.last } unless @project.builds.empty?
+%div{:class => 'last-builds project'}
+  %ul#projects
+    - @project.builds.last_builds.each do |build|
+      - next if build.id == @project.builds.last.id
+      .build{:class => build.status, :id => "build-#{build.id}"}
+        .author= build.author+ ':'
+        .comment= build.comment
+        .date= ago(build.created_at)

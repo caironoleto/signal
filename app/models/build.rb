@@ -4,6 +4,8 @@ class Build < ActiveRecord::Base
   belongs_to :project
   validates_presence_of :project, :output, :commit, :author, :comment
 
+  scope :last_builds, order("id desc").limit(10)
+
   protected
 
   before_validation :on => :create do
